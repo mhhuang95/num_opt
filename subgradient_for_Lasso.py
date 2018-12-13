@@ -1,3 +1,8 @@
+#Subgradient method to solve Lasso Problem
+#Minhui Huang 12/13/2018
+
+#very slow
+
 import numpy as np
 #import matplotlib.pyplot as plt
 
