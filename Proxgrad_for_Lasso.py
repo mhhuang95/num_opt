@@ -32,25 +32,28 @@ def main():
     picks = np.random.permutation(np.arange(1, n))
     xs[picks[0:s], 0] = np.random.randn(s, 1).flatten()
     b = A.dot(xs)
+    #print(b.shape)
 
     x_k = np.zeros([n, 1])
     epsilon = 1e-2
-    tau = 1
-    t = 0.1
+    tau = 0.01
     beta = 0.7
 
     k = 1
     error = []
 
     while np.linalg.norm(x_k - xs) / np.linalg.norm(xs) >= epsilon:
+        t = 0.01
         while f(x_k - t*compute_grad(x_k,A,b),A,b) > model(x_k - t*compute_grad(x_k,A,b),x_k,A,b,t):
             t = beta*t
+        #print(t)
         u = x_k - t*compute_grad(x_k,A,b)
-        x_k = np.sign(u)*np.maximum(np.abs(u)-tau, np.zeros(np.shape(u)))
+        x_k = np.sign(u)*np.maximum(np.abs(u)-tau*t, np.zeros(np.shape(u)))
         k += 1
         error.append(np.linalg.norm(x_k - xs) / np.linalg.norm(xs))
-        print(np.linalg.norm(x_k - xs))
-        print(np.linalg.norm(xs))
+        print(np.linalg.norm(x_k - xs)/np.linalg.norm(xs))
+        #print(np.linalg.norm(xs))
+    print(x_k)
 
 if __name__ == "__main__":
     main()
